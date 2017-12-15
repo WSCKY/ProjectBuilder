@@ -2,6 +2,7 @@ package MainFrame;
 
 import javax.swing.JFrame;
 import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class MainFrame extends JFrame{
@@ -48,7 +49,12 @@ public class MainFrame extends JFrame{
 		this.setVisible(true);
 	}
 	public static void main(String[] args) {
+		try {
+            UIManager.setLookAndFeel(
+                UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            System.err.println("Couldn't use system look and feel.");
+        }
 		new MainFrame();
-		System.out.println("Hello World!");
 	}
 }
