@@ -2,6 +2,7 @@ package MainFrame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -43,8 +44,8 @@ public class MainFrame extends JFrame{
 
 		/* Create split pane */
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		splitPane.setLeftComponent(FileBrowser);
-		splitPane.setRightComponent(new JPanel());
+		splitPane.setLeftComponent(new JScrollPane(FileBrowser));
+		splitPane.setRightComponent(new JScrollPane());
 		splitPane.setDividerLocation(150);
 		this.add(splitPane);
 
