@@ -1,7 +1,7 @@
 package MainFrame;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
@@ -42,10 +42,15 @@ public class MainFrame extends JFrame{
 
 		JTree FileBrowser = new JTree(TopNode);
 
+		/* Create the file viewing pane. */
+		JEditorPane ContentPane = new JEditorPane();
+		ContentPane.setEditable(false);
+		ContentPane.setText("Hello!");
+
 		/* Create split pane */
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setLeftComponent(new JScrollPane(FileBrowser));
-		splitPane.setRightComponent(new JScrollPane());
+		splitPane.setRightComponent(new JScrollPane(ContentPane));
 		splitPane.setDividerLocation(150);
 		this.add(splitPane);
 
