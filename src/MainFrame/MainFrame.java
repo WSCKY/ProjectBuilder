@@ -1,6 +1,8 @@
 package MainFrame;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -38,7 +40,13 @@ public class MainFrame extends JFrame{
 	    category.add(book);
 
 		JTree FileBrowser = new JTree(TopNode);
-		this.add(FileBrowser);
+
+		/* Create split pane */
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane.setLeftComponent(FileBrowser);
+		splitPane.setRightComponent(new JPanel());
+		splitPane.setDividerLocation(150);
+		this.add(splitPane);
 
 		/* set frame window */
 		this.setTitle("Project Builder V0.0.1");
