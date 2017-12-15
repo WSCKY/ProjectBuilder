@@ -55,6 +55,10 @@ public class MainFrame extends JFrame{
         } catch (Exception e) {
             System.err.println("Couldn't use system look and feel.");
         }
-		new MainFrame();
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	new MainFrame();
+            }
+        });
 	}
 }
