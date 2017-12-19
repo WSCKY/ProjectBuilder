@@ -20,6 +20,9 @@ import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellEditor;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeSelectionModel;
 
 public class MainFrame extends JFrame implements TreeSelectionListener, MouseListener, ItemListener, ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -65,6 +68,9 @@ public class MainFrame extends JFrame implements TreeSelectionListener, MouseLis
 	    category.add(book);
 
 		FileBrowser = new JTree(TopNode);
+		FileBrowser.setEditable(true);
+		FileBrowser.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		FileBrowser.setCellEditor(new DefaultTreeCellEditor(FileBrowser, new DefaultTreeCellRenderer()));
 		FileBrowser.addTreeSelectionListener(this);
 		FileBrowser.add(TreePopupMenu);
 
