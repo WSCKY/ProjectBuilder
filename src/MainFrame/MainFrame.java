@@ -22,6 +22,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 public class MainFrame extends JFrame implements TreeSelectionListener, MouseListener, ItemListener, ActionListener{
@@ -32,9 +34,9 @@ public class MainFrame extends JFrame implements TreeSelectionListener, MouseLis
 	JMenuItem PopMenuItem1, PopMenuItem2, PopMenuItem3, PopMenuItem4;
 	public MainFrame() {
 		TreePopupMenu = new JPopupMenu();
-		PopMenuItem1 = new JMenuItem("Option_1");
-		PopMenuItem2 = new JMenuItem("Option_2");
-		PopMenuItem3 = new JMenuItem("Option_3");
+		PopMenuItem1 = new JMenuItem("Add New");
+		PopMenuItem2 = new JMenuItem("Delete");
+		PopMenuItem3 = new JMenuItem("Edit");
 		PopMenuItem4 = new JMenuItem("Option_4");
 		PopMenuItem1.addMouseListener(this); PopMenuItem1.addActionListener(this);
 		PopMenuItem2.addMouseListener(this); PopMenuItem2.addActionListener(this);
@@ -76,7 +78,12 @@ public class MainFrame extends JFrame implements TreeSelectionListener, MouseLis
 
 		FileBrowser.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0 && FileBrowser.getSelectionCount() == 1) {
+				TreePath path = FileBrowser.getPathForLocation(e.getX(), e.getY());
+				if(path == null) { //nothing selected.
+					return;
+				}
+				FileBrowser.setSelectionPath(path);
+				if((e.getModifiers() & InputEvent.BUTTON3_MASK) != 0) {// && FileBrowser.getSelectionCount() == 1
 					TreePopupMenu.show(FileBrowser, e.getX(), e.getY());
 				}
 			}
@@ -126,12 +133,16 @@ public class MainFrame extends JFrame implements TreeSelectionListener, MouseLis
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)FileBrowser.getLastSelectedPathComponent();
 		if(e.getSource() == PopMenuItem1) {
-			System.out.println("Item 1 Clicked!");
+			DefaultMutableTreeNode NewNode = new DefaultMutableTreeNode("New Group");
+			((DefaultTreeModel)FileBrowser.getModel()).insertNodeInto(NewNode, node, node.getChildCount());
+			FileBrowser.expandPath(FileBrowser.getSelectionPath());
 		} else if(e.getSource() == PopMenuItem2) {
-			System.out.println("Item 2 Clicked!");
+			if(node.isRoot()) { return; }
+			((DefaultTreeModel)FileBrowser.getModel()).removeNodeFromParent(node);
 		} else if(e.getSource() == PopMenuItem3) {
-			System.out.println("Item 3 Clicked!");
+			FileBrowser.startEditingAtPath(FileBrowser.getSelectionPath());
 		} else if(e.getSource() == PopMenuItem4) {
 			System.out.println("Item 4 Clicked!");
 		}
